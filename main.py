@@ -86,8 +86,26 @@ while True:
         startTime, endTime = time.split("-")
         startHour = int(startTime.split(":")[0])
         endHour = int(endTime.split(":")[0])
-        startMinute = int(startTime.split(":")[1])
-        endMinute = int(endTime.split(":")[1])
+
+        if "AM" in startTime.split(":")[1]:
+            startMinute = int(startTime.split(":")[1].replace("AM", ""))
+            if startHour == 12:
+                startHour = 0
+        elif "PM" in startTime.split(":")[1]:
+            startMinute = int(startTime.split(":")[1].replace("PM", ""))
+            if startHour != 12:
+                startHour = startHour + 12
+
+        if "AM" in endTime.split(":")[1]:
+            endMinute = int(endTime.split(":")[1].replace("AM", ""))
+            if endHour == 12:
+                endHour = 0
+        elif "PM" in endTime.split(":")[1]:
+            endMinute = int(endTime.split(":")[1].replace("PM", ""))
+            if endHour != 12:
+                endHour = endHour + 12
+
+        print(time, year, month, day, startHour, startMinute)
         # datetime(year, month, day, hour, minute, second, microsecond)
         dts = arrow.get(year, month, day, startHour, startMinute, 0, 0, tzinfo='Australia/Queensland')
         dte = arrow.get(year, month, day, endHour, endMinute, 0, 0, tzinfo='Australia/Queensland')
